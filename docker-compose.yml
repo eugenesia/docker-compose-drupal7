@@ -25,6 +25,7 @@ services:
     image: drupal:7
     volumes:
     - ../public_html:/var/www/html
+    - ./php/php.ini:/usr/local/etc/php/php.ini
     links:
     - some-mysql:mysql
     depends_on:
