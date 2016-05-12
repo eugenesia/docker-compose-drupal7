@@ -1,6 +1,14 @@
 version: '2'
 services:
-  some-mysql:
+
+  # Data-only container.
+  data:
+    image: busybox
+    volumes:
+    - ../volumes/drupal:/var/www/html
+
+  # MySQL server.
+  mysql:
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -10,26 +18,25 @@ services:
     ports:
     - 3306
     volumes:
-    - ../mysql:/var/lib/mysql
-    - ./mysql/localdb-run.sh:/localdb-run.sh
+    - ../volumes/mysql:/var/lib/mysql
+    - ./localdb-run.sh:/localdb-run.sh
+    # Run script to fix 'does not have access rights' error.
     entrypoint: /localdb-run.sh
 
-#  some-php:
-#    image: php:5-apache
-#    links:
-#    - some-mysql:mysql
-#    ports:
-#    - '8080:80'
-#      
-  some-drupal:
+  # Drupal 7.
+  drupal:
     image: drupal:7
-    volumes:
-    - ../public_html:/var/www/html
-    - ./php/php.ini:/usr/local/etc/php/php.ini
     links:
-    - some-mysql:mysql
+    - mysql:mysql
+    volumes_from:
+    - data
     depends_on:
-    - some-mysql
+    - mysql
     ports:
     - '8080:80'
+    volumes_from:
+    - data
+    depends_on:
+    - data
+    - mysql
 
