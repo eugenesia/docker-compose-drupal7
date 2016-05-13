@@ -16,7 +16,7 @@ services:
       # Create database on image startup.
       MYSQL_DATABASE: drupal7
     ports:
-    - 3306
+    - 3306:3306
     volumes:
     - ../volumes/mysql:/var/lib/mysql
     - ./localdb-run.sh:/localdb-run.sh
@@ -32,9 +32,15 @@ services:
     - mysql:mysql
     ports:
     - '8080:80'
+    - '8023:23'
+    - '8022:22'
+    - '8443:443'
+    volumes:
+    - ./web-run.sh:/web-run.sh
     volumes_from:
     - data
     depends_on:
     - data
     - mysql
+    command: [/bin/bash, /web-run.sh]
 
