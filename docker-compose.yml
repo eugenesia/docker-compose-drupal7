@@ -20,7 +20,9 @@ services:
     volumes:
     - ../volumes/mysql:/var/lib/mysql
     - ./localdb-run.sh:/localdb-run.sh
+
     # Run script to fix 'does not have access rights' error.
+    # See https://github.com/docker-library/mysql/issues/99#issuecomment-145665645
     entrypoint: /localdb-run.sh
 
   # Drupal 7.
