@@ -24,14 +24,10 @@ services:
     entrypoint: /localdb-run.sh
 
   # Drupal 7.
-  drupal:
-    image: drupal:7
+  web:
+    build: .
     links:
     - mysql:mysql
-    volumes_from:
-    - data
-    depends_on:
-    - mysql
     ports:
     - '8080:80'
     volumes_from:

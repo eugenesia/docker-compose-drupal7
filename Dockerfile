@@ -1,23 +1,19 @@
-# MySQL server.
+# Drupal 7 web server with Drush.
 
 # Base image name
-FROM php:5-apache
+FROM drupal:7
 
-# Mandatory to set password for username 'root'
-ENV MYSQL_ROOT_PASSWORD='root'
-
-# Install extensions required for Drupal.
+# Install packages.
 RUN apt-get update && apt-get install -y \
-  libfreetype6-dev \
-  libjpeg62-turbo-dev \
-  libmcrypt-dev \
-  libpng12-dev \
-  && docker-php-ext-install -j$(nproc) iconv mcrypt \
-  && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-  && docker-php-ext-install -j$(nproc) gd
+    wget
 
-RUN echo "Test file <?php print 'Hello world'; ?>" > /var/www/html/index.php
+# Install Drush 8 (master) as phar.
+RUN wget http://files.drush.org/drush.phar
+RUN mv drush.phar /usr/local/bin/drush && chmod +x /usr/local/bin/drush
 
 # Custom php.ini
-COPY ./php/php.ini /usr/local/etc/php/
+COPY ./php.ini /usr/local/etc/php/
+
+# Ports required for SSH (Drush) and Apache.
+EXPOSE 80 443 22
 
