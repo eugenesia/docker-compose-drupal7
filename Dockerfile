@@ -29,7 +29,8 @@ COPY ./php.ini /usr/local/etc/php/
 # COPY ./id_rsa.pub /root/.ssh/authorized_keys
 
 # Ports required for SSH (Drush) and Apache.
-EXPOSE 80 # 443 22
+EXPOSE 80
+# 443 22
 
 # Fix 'missing privilege separation directory' error.
 # RUN mkdir /var/run/sshd
