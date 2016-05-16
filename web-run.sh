@@ -3,6 +3,11 @@
 # Start SSH and Apache daemons.
 #
 
+# Make sure we're not confused by old, incompletely-shutdown httpd
+# context after restarting the container.  httpd won't start correctly
+# if it thinks it is already running.
+# See https://github.com/fedora-cloud/Fedora-Dockerfiles/blob/master/apache/run-apache.sh
+rm -rf /run/httpd/* /tmp/httpd*
 
 # Fix SSH error 'missing privilege separation directory'.
 mkdir /var/run/sshd
