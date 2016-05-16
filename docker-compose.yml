@@ -20,7 +20,11 @@ services:
     ports:
     - 3306:3306
     volumes:
+    # MySQL data files.
     - ../volumes/mysql:/var/lib/mysql
+    # Custom my.cnf.
+    - ./my.cnf:/etc/mysql/conf.d/my.cnf
+    # Script to fix 'does not have access rights' error.
     - ./localdb-run.sh:/localdb-run.sh
 
     # Run script to fix 'does not have access rights' error.
