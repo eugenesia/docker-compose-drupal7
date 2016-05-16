@@ -6,6 +6,8 @@ services:
     image: busybox
     volumes:
     - ../volumes/drupal:/var/www/html
+    # Share host Drush plugins with webserver Drush instance.
+    - ${HOME}/.drush:/root/.drush
 
   # MySQL server.
   mysql:
