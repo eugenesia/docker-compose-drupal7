@@ -10,7 +10,7 @@
 rm -rf /run/httpd/* /tmp/httpd*
 
 # Fix SSH error 'missing privilege separation directory'.
-mkdir /var/run/sshd
+mkdir -p /var/run/sshd
 
 # Runs the SSH daemon in background.
 /usr/sbin/sshd &
