@@ -1,14 +1,15 @@
 #!/bin/bash
 #
-# Run 2 processes using this script file. Running 2 is not usually possible
-# without a script.
+# Start SSH and Apache daemons.
 #
 
 
-# Make required dir, and run SSHD.
+# Fix SSH error 'missing privilege separation directory'.
 mkdir /var/run/sshd
+
+# Runs the SSH daemon in background.
 /usr/sbin/sshd &
 
-# Last foreground script has to keep running else container will exit.
+# Last command has to run in the foreground, else container will exit.
 /usr/sbin/apache2 -DFOREGROUND
 

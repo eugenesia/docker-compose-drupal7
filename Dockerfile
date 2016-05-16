@@ -25,14 +25,16 @@ COPY ./php.ini /usr/local/etc/php/
 RUN DEBIAN_FRONTEND="noninteractive" apt-get install --yes openssh-server
 RUN dpkg-reconfigure openssh-server
 
-# Copy SSH keys for passwordless login.
+# Copy SSH keys for passwordless login to webserver container.
 COPY ./id_rsa.pub /root/.ssh/authorized_keys
 
 # Ports required for SSH (Drush) and Apache.
-EXPOSE 80 443 22
+# Port 80: Apache httpd webserver
+# Port 22: SSH daemon
+EXPOSE 80 22
 
-# Fix 'missing privilege separation directory' error.
-RUN mkdir /var/run/sshd
-RUN /usr/sbin/sshd
-# CMD ["/usr/sbin/sshd", "-D"]
+COPY ./web-run.sh /tmp
+
+# Run SSH daemon.
+CMD ["/tmp/web-run.sh"]
 

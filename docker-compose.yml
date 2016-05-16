@@ -31,16 +31,11 @@ services:
     links:
     - mysql:mysql
     ports:
-    - '8080:80'
-    - '8023:23'
+    - '80:80'
     - '8022:22'
-    - '8443:443'
-    volumes:
-    - ./web-run.sh:/web-run.sh
     volumes_from:
     - data
     depends_on:
     - data
     - mysql
-    command: [/bin/bash, /web-run.sh]
 
