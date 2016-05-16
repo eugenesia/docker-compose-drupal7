@@ -14,9 +14,10 @@ RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
 # Install Drush 8 (master) as phar.
-RUN wget http://files.drush.org/drush.phar
-RUN mv drush.phar /usr/local/bin/drush && \
-    chmod +x /usr/local/bin/drush
+# RUN wget http://files.drush.org/drush.phar
+# RUN mv drush.phar /usr/local/bin/drush && \
+#     chmod +x /usr/local/bin/drush
+RUN apt-get install -y drush
 
 # Custom php.ini
 COPY ./php.ini /usr/local/etc/php/
