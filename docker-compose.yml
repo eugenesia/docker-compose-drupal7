@@ -1,13 +1,14 @@
 version: '2'
 services:
 
-  # Data-only container.
+  # Data-only container. Do not remove, else MySQL data will disappear!
   data:
     image: busybox
     volumes:
     - ../volumes/drupal:/var/www/html
     # Share host Drush plugins with webserver Drush instance.
     - ${HOME}/.drush:/root/.drush
+    - /var/lib/mysql
 
   # MySQL server.
   mysql:
@@ -19,17 +20,19 @@ services:
       MYSQL_DATABASE: drupal7
     ports:
     - 3306:3306
+    volumes_from:
+    - data
     volumes:
     # MySQL data files.
-    - ../volumes/mysql:/var/lib/mysql
+    # - ../volumes/mysql:/var/lib/mysql
     # Custom my.cnf.
     - ./my.cnf:/etc/mysql/conf.d/my.cnf
     # Script to fix 'does not have access rights' error.
-    - ./localdb-run.sh:/localdb-run.sh
+    # - ./localdb-run.sh:/localdb-run.sh
 
     # Run script to fix 'does not have access rights' error.
     # See https://github.com/docker-library/mysql/issues/99#issuecomment-145665645
-    entrypoint: /localdb-run.sh
+    # entrypoint: /localdb-run.sh
 
   # Drupal 7.
   web:
